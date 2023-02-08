@@ -32,8 +32,21 @@ function App() {
     try{
 
       const response = await api.get("/api/v1/movies");
+      const movieResult = await response.data;
 
-      setMovies(response.data);
+      const tmdbMovies = await Promise.all(
+        movieResult.map(async (movie) => {
+          const tmdbResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.tmdbId}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee&language=en-US`);
+          const tmdbResult = await tmdbResponse.json();
+          return {
+            ...movie,
+            poster_path: tmdbResult.poster_path,
+            overview: tmdbResult.overview
+          };
+        })
+      );
+
+      setMovies(tmdbMovies);
 
     } catch(err) {
       console.log(err);

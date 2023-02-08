@@ -40,7 +40,7 @@ const MovieDetails = ({getMovieData, movie, rating, setRating}) => {
         </Row>
         <Row className = "mt-2">
             <Col>
-            <img src = {logo} alt = "" />
+            <img src = {logo} alt = {logo} />
             </Col>
             <Col>
                 {
@@ -52,7 +52,7 @@ const MovieDetails = ({getMovieData, movie, rating, setRating}) => {
                         </Row>
                         <Row>
                             <Col>
-                                <hr />
+                                {MovieDetails.movie}
                             </Col>
                         </Row>
                     </div>
