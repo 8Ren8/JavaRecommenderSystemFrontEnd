@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useLocalState } from '../../util/LocalStorage'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Register = () => {
 
@@ -48,36 +50,41 @@ const Register = () => {
 
   return (
     <div>
-        <div>
-            <label htmlFor='username'>
-                Username
-            </label>
-            <input type = "text" id = "username" value = {username} onChange = {(event) => setUsername(event.target.value)} />
-        </div>
-        <div>
-            <label htmlFor='email'>
-                Email
-            </label>
-            <input type={"email"} id = "email" value = {email} onChange = {(event) => setEmail(event.target.value)} />
-        </div>
-        <div>
-            <label htmlFor='password'>
-                Password
-            </label>
-            <input type = "password" id = "password" value = {password} onChange = {(event) => setPassword(event.target.value)} />
-        </div>
-        <div>
-            <label htmlFor='confirmPassword'>
-                Confirm Password
-            </label>
-            <input type = "password" id = "confirmPassword" value = {confirmPassword} onChange = {(event) => setConfirmPassword(event.target.value)} />
-        </div>
-        <div>
-            <input type = "hidden" id = "role" value = {"user"} onChange = {(event) => setRole(event.target.value)} />
-        </div>
-        <div>
-            <button id = "register" type = "button" onClick={() => sendRegisterRequest()}>Register</button>
-        </div>
+        <Form className="container position-absolute top-50 start-50 translate-middle" style={{width: "50%"}}>
+            <h2>Register</h2>
+            <Form.Group className="mb-3" controlId="formBasicUsername"> 
+                <Form.Label>
+                    Username
+                </Form.Label>
+                <Form.Control style = {{width: "20rem"}} type="text" value = {username} onChange = {(event) => setUsername(event.target.value)} placeholder="Username" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail"> 
+                <Form.Label>
+                    Email
+                </Form.Label>
+                <Form.Control style = {{width: "20rem"}} type="email" value = {email} onChange = {(event) => setEmail(event.target.value)} placeholder="Email" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword"> 
+                <Form.Label>
+                    Password
+                </Form.Label>
+                <Form.Control style = {{width: "20rem"}} type="password" value = {password} onChange = {(event) => setPassword(event.target.value)} placeholder="Password" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicConfirmPassword"> 
+                <Form.Label>
+                    Confirm Password
+                </Form.Label>
+                <Form.Control style = {{width: "20rem"}} type="password" value = {confirmPassword} onChange = {(event) => setConfirmPassword(event.target.value)} placeholder="Confirm Password" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword"> 
+                <Form.Control style = {{width: "20rem"}} type="hidden" value = {"user"} onChange = {(event) => setRole(event.target.value)}/>
+            </Form.Group>
+            <Button variant = "info" onClick={() => sendRegisterRequest()}>Register</Button>
+        </Form>
     </div>
   )
 }

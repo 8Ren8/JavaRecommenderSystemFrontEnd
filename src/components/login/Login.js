@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useLocalState } from '../../util/LocalStorage'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Login = () => {
 
@@ -41,21 +43,23 @@ const Login = () => {
 
   return (
     <div>
-        <div>
-            <label htmlFor='username'>
-                Username
-            </label>
-            <input type = "text" id = "username" value = {username} onChange = {(event) => setUsername(event.target.value)} />
-        </div>
-        <div>
-            <label htmlFor='password'>
-                Password
-            </label>
-            <input type = "password" id = "password" value = {password} onChange = {(event) => setPassword(event.target.value)} />
-        </div>
-        <div>
-            <button id = "login" type = "button" onClick={() => sendLoginRequest()}>Login</button>
-        </div>
+        <Form className="container position-absolute top-50 start-50 translate-middle" style={{width: "50%"}}>
+            <h2>Log In</h2>
+            <Form.Group className="mb-3" controlId="formBasicUsername"> 
+                <Form.Label>
+                    Username
+                </Form.Label>
+                <Form.Control style = {{width: "20rem"}} type="text" value = {username} onChange = {(event) => setUsername(event.target.value)} placeholder="Username" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword"> 
+                <Form.Label>
+                    Password
+                </Form.Label>
+                <Form.Control style = {{width: "20rem"}} type="password" value = {password} onChange = {(event) => setPassword(event.target.value)} placeholder="Password" />
+            </Form.Group>
+            <Button variant = "info" onClick={() => sendLoginRequest()}>Login</Button>
+        </Form>
     </div>
   )
 }

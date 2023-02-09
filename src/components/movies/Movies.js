@@ -37,7 +37,7 @@ const Movies = ({movies}) => {
                     moviesData?.map((movie) => {
                         return (
                             <Col>
-                                <Card bg = "dark" style={{ width: '20rem' }}>
+                                <Card border = "light" bg = "dark" style={{ width: '20rem' }}>
                                     <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee/`} alt = {logo} />
                                     <Card.Body>
                                         <Card.Title>{movie.title}</Card.Title>

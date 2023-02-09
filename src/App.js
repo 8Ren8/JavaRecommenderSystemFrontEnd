@@ -7,9 +7,7 @@ import Home from './components/home/Home';
 import Header from './components/header/Header';
 import NotFound from './components/notFound/NotFound';
 import Login from './components/login/Login';
-import LoginForm from './components/login/LoginForm';
 import Register from './components/register/Register';
-import RegisterForm from './components/register/RegisterForm';
 import { useLocalState } from './util/LocalStorage';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -104,7 +102,7 @@ function App() {
         <Route path = "/api/v1/auth/register" element = {<Register />}></Route>
         <Route path="/" element = {<PrivateRoute><Layout/></PrivateRoute>}>
           <Route path = "/api/v1/movies" element = {<Home movies = {movies} />}></Route>
-          <Route path = "/api/v1/movies/:movieId" element = {<MovieDetails getMovieData={getMovieData}/>}></Route>
+          <Route path = "/api/v1/movies/:movieId" element = {<MovieDetails />}></Route>
           <Route path = "*" element  = {<NotFound />}></Route>
         </Route>
       </Routes>
