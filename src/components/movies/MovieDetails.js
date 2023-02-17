@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import api from '../../api/axiosConfig';
 import {useParams} from 'react-router-dom';
-import {Container, Row, Col, Button, Card} from 'react-bootstrap';
+import {Container, Row, Col, Button, Card, Form} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import React from "react";
 import logo from './logo.svg';
 import RatingForm from '../ratingForm/RatingForm';
 import { textAlign } from "@mui/system";
 
-const MovieDetails = ({getMovieData, movie, rating, setRating}) => {
+const MovieDetails = () => {
 
     //get movieId from parameter in url
     let params = useParams();
@@ -71,39 +71,48 @@ const MovieDetails = ({getMovieData, movie, rating, setRating}) => {
 
     }, [])
 
-    const addRating = async (e) => {
-        e.preventDefault();
+    const[rating, setRating] = useState('1');
+    const userID = JSON.parse(localStorage.getItem("userID"));
+    console.log(userID);
+    console.log(movieId);
+    console.log(rating);
 
-        const rating = rating.current;
+    //add rating
+    function addRatingRequest() {
 
-        try{
-            const response = await api.post("/api/v1/ratings", {ratingBody: rating.value, movieID:movieId});
-
-            const updatedRating = rating.value;
-    
-            setRating(updatedRating);
-        }
-        catch(err) {
-            console.error(err);
-        }
-
+        api.post("http://localhost:8083/api/v1/ratings/addRating", {
+            userId: userID,
+            movieId: movieId,
+            rating: rating
+        })
+        .then((response) => {
+            if (response.status === 201) {
+                console.log(response);
+                alert("Rating Added.")
+            }
+            else {
+                throw new Error("Please Try Again");
+            }
+        }).catch ((message) => {
+            alert(message);
+        })
     }
 
   return (
     <Container fluid>
         <Row>
-            <Col><h3 className="mt-2">{movieDetail?.title}</h3></Col>
+            <Col><h3 className="mt-2">Movie Details</h3></Col>
         </Row>
         <Row className = "mt-2">
-            <Col>
-            <img src = {`https://image.tmdb.org/t/p/w500/${tmdbMovie?.poster_path}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee`} alt = {logo} />
+            <Col className="mb-4">
+                <img src = {`https://image.tmdb.org/t/p/w500/${tmdbMovie?.poster_path}?api_key=17d6dd8cf5cfd7d1dbbafac3e5eefcee`} alt = {logo} />
             </Col>
             <Col>
                 {
                     <div>
                         <Row>
-                            <Col>
-                                <h3>{movieDetail?.title}</h3>
+                            <Col className="mb-4">
+                                <h2>{movieDetail?.title}</h2>
                             </Col>
                         </Row>
                         <Row>
@@ -112,8 +121,20 @@ const MovieDetails = ({getMovieData, movie, rating, setRating}) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col>
+                            <Col className="mb-4">
                                 <h3>{tmdbMovie?.overview}</h3>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Select className = "mb-2" style = {{width: "4rem"}} onChange={(event) => setRating(event.target.value)}>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </Form.Select>
+                                <Button onClick={addRatingRequest}>Add Rating</Button>
                             </Col>
                         </Row>
                     </div>

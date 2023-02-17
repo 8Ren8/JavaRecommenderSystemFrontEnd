@@ -5,17 +5,39 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import AuthService from '../../services/AuthService';
 import { useState, useEffect } from 'react';
 
 const Header = () => {
 
+    //logout function
     const logout = () => {
         localStorage.removeItem("jwt");
+        localStorage.removeItem("username");
+        localStorage.removeItem("userID");
+        localStorage.removeItem("userRole");
         window.location.reload(false);
       };
 
+    //store userID in a variable
+    const userID = localStorage.getItem("userID");
+    const userRole = JSON.parse(localStorage.getItem("userRole"));
+
+    //navigation to other pages
+    const navigate = useNavigate();
+
+    const navigateToAdminUsersPage = () => {
+        navigate('/admin/users');
+    }
+
+    const navigateToAdminMoviesPage = () => {
+        navigate('/admin/addMovie');
+    }
+
+  //navigation bar
   return (
     <Navbar bg = "dark" variant = "dark" expand = "lg">
         <Container fluid>
@@ -31,10 +53,27 @@ const Header = () => {
                 >
                     <NavLink className = "nav-link" to = "/api/v1/movies">Home</NavLink>
                     <NavLink className = "nav-link" to = "/favorites">Favorites</NavLink>
+                    <NavLink className = "nav-link" to = "/disabled" style={{pointerEvents: "none"}}>{JSON.parse(localStorage.getItem("username"))}</NavLink>
                 </Nav>
-                <Button variant = "outline-info" className = "me-2" onClick={logout}>Logout</Button>
+                {userRole === "admin" && (
+                        <DropdownButton variant = "info" menuVariant = "dark" className = "me-2" title = "Admin Operations">
+                            <Dropdown.Item eventKey="1" onClick={navigateToAdminUsersPage}>Users</Dropdown.Item>
+                            <Dropdown.Item eventKey="2" onClick={navigateToAdminMoviesPage}>Movies</Dropdown.Item>
+                        </DropdownButton>
+                    )
+                }
+                {userID > 0 ? (
+                        <Button variant = "outline-info" className = "me-2" onClick={logout}>Logout</Button>
+                    ) : (
+                        <div>
+                            <NavLink className = "btn btn-outline-info me-2" to = "/api/v1/auth/login">LogIn</NavLink>
+                            <NavLink className = "btn btn-outline-info me-2" to = "/api/v1/auth/register">Register</NavLink>
+                        </div>
+                    )
+                }
+                {/* <Button variant = "outline-info" className = "me-2" onClick={logout}>Logout</Button>
                 <NavLink className = "btn btn-outline-info me-2" to = "/api/v1/auth/login">LogIn</NavLink>
-                <Button variant = "outline-info" className = "me-2">Register</Button> 
+                <Button variant = "outline-info" className = "me-2">Register</Button> */}
             </Navbar.Collapse>
         </Container>
 

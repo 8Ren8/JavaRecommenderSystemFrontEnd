@@ -8,6 +8,9 @@ import Header from './components/header/Header';
 import NotFound from './components/notFound/NotFound';
 import Login from './components/login/Login';
 import Register from './components/register/Register';
+import Users from './components/users/Users';
+import AdminAddUser from './components/adminAddUser/AdminAddUser';
+import AddMovieForm from './components/addMovieForm/AddMovieForm';
 import { useLocalState } from './util/LocalStorage';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -103,6 +106,9 @@ function App() {
         <Route path="/" element = {<PrivateRoute><Layout/></PrivateRoute>}>
           <Route path = "/api/v1/movies" element = {<Home movies = {movies} />}></Route>
           <Route path = "/api/v1/movies/:movieId" element = {<MovieDetails />}></Route>
+          <Route path = "/admin/users" element = {<Users />}></Route>
+          <Route path = "/admin/users/addUser" element = {<AdminAddUser />}></Route>
+          <Route path = "/admin/addMovie" element = {<AddMovieForm />}></Route>
           <Route path = "*" element  = {<NotFound />}></Route>
         </Route>
       </Routes>

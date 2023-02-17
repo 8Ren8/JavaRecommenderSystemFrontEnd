@@ -12,8 +12,12 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [role, setRole] = useState("");
+    const [errors, setErrros] = useState("");
 
     const [jwt, setJwt] = useLocalState("", "jwt");
+    const [lsUsername, setLsUsername] = useLocalState("", "username");
+    const [userID, setUserID] = useLocalState("", "userID");
+    const [userRole, setUserRole] = useLocalState("", "userRole");
 
 
     function sendRegisterRequest() {
@@ -42,6 +46,9 @@ const Register = () => {
         })
         .then((data) => {
             setJwt(data.token);
+            setLsUsername(data.user.username);
+            setUserID(data.user.userId);
+            setUserRole(data.user.role);
             window.location.href = "/api/v1/movies";
         }).catch ((message) => {
             alert(message);
@@ -50,13 +57,14 @@ const Register = () => {
 
   return (
     <div>
-        <Form className="container position-absolute top-50 start-50 translate-middle" style={{width: "50%"}}>
+        <Form className="container d-flex flex-column align-items-center justify-content-center mt-4" style={{width: "50%"}}>
             <h2>Register</h2>
             <Form.Group className="mb-3" controlId="formBasicUsername"> 
                 <Form.Label>
                     Username
                 </Form.Label>
                 <Form.Control style = {{width: "20rem"}} type="text" value = {username} onChange = {(event) => setUsername(event.target.value)} placeholder="Username" />
+                <Form.Control.Feedback type='invalid'>Please enter an username</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicEmail"> 
